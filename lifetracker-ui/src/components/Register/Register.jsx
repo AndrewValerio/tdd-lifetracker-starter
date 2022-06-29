@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import axios from "axios"
 import "./Register.css"
 
@@ -102,7 +102,7 @@ export default function Signup({ setAppState }) {
               <label htmlFor="name">First Name</label>
               <input
                 type="text"
-                name="firstName"
+                name="first_name"
                 placeholder="Jane"
                 value={form.first_name}
                 onChange={handleOnInputChange}
@@ -113,7 +113,7 @@ export default function Signup({ setAppState }) {
               <label htmlFor="name">Last Name</label>
               <input
                 type="text"
-                name="lastName"
+                name="last_name"
                 placeholder="Doe"
                 value={form.last_name}
                 onChange={handleOnInputChange}
