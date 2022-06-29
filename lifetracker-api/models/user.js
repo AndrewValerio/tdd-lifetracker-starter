@@ -39,7 +39,8 @@ class User{
         throw new UnauthorizedError("Invalid email/ password combo")
     }
     static async register(credentials){
-       //user should submit their email, pw, first and last name, and location + time 
+        console.log(credentials)
+       //user should submit their email, pw, first and last name,  
        // if any of these fields are missing, throw an error
         const requiredFields = ["email", "password", "first_name", "last_name", "username"]
         requiredFields.forEach(field => {
@@ -58,7 +59,7 @@ class User{
         throw new BadRequestError(`Duplicate email: ${credentials.email}`)
        }
        //take the users password, and hash it
-       const hashedPassword = await bcrypt.hash(credentials.password, workFactor)
+       const hashedPassword = await bcrypt.hash(credentials.password, parseInt(workFactor))
        //take the users email, and lowercase it
        const lowercasedEmail = credentials.email.toLowerCase()
        //
@@ -71,7 +72,7 @@ class User{
                 last_name,
                 username
             )
-            VALUES ($1, $2, $3, $4, $5, $6)
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING id, email, first_name, last_name, username;
        `, [lowercasedEmail, hashedPassword, credentials.first_name, credentials.last_name, 
         credentials.username])

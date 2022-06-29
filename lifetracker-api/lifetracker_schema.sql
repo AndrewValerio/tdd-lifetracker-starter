@@ -4,6 +4,7 @@ CREATE TABLE users(
     email   TEXT NOT NULL UNIQUE CHECK(POSITION('@' IN email) > 1),
     first_name  TEXT NOT NULL,
     last_name   TEXT NOT NULL,
+    username TEXT NOT NULL,
     created_at    DATE NOT NULL DEFAULT CURRENT_DATE,
     updated_at        DATE NOT NULL DEFAULT CURRENT_DATE
 );
