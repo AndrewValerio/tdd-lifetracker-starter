@@ -21,4 +21,16 @@ router.post("/register", async(req, res, next) => {
     }
 })
 
+router.get("/activity", async(req, res, next) => {
+    try{
+        const user = req.body.user
+        console.log(user)
+        //if no user then error message make an account
+        const activities = await User.fetchActivity(user)
+        return res.status(200).json({ activities })
+    } catch(err){
+        next(err)
+    }
+})
+
 module.exports = router

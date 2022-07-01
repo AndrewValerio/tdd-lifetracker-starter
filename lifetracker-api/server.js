@@ -3,6 +3,7 @@ const cors = require("cors")
 const morgan = require("morgan")
 const {PORT} = require("./config")
 const authRoutes = require("./routes/auth")
+const nutritionRoutes = require("./routes/nutrition")
 
 
 const {BadRequestError, NotFoundError} = require("./utils/errors")
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 app.use("/auth", authRoutes)
+app.use("/nutrition", nutritionRoutes)
 
 app.use((req, res, next) => {
     return next(new NotFoundError())
@@ -29,6 +31,11 @@ app.use((err, req, res, next) => {
         error: {message, status},
     })
 })
+
+app.use((req, res, next) => { //This middleware checks the local user
+    res.locals.user = req.user
+    next()
+  })
 
 
 app.listen(PORT, () => {

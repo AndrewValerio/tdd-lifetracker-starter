@@ -95,5 +95,16 @@ class User{
 
         return user
     }
+
+    static async fetchActivity(){
+        const query = `SELECT nutrition.category, nutrition.calories, nutrition.image_url
+        FROM users AS u
+        INNER JOIN nutrition ON u.id = nutrition.user_id`
+        const result = await db.query(query)
+        return result
+        //fetch user's activities tables
+        // use join after db.query to get 
+        //SELECT * FROM users WHERE user left join
+    }
 }
 module.exports = User

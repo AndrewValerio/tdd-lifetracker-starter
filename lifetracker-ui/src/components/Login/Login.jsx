@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 // import undraw_medical_research from "../../assets/undraw_medical_research_deep_blue.svg"
 import "./Login.css"
 
-export default function Login({ setAppState }) {
+export default function Login({ setAppState, isLoggedIn, setIsLoggedIn,redirect, setRedirect }) {
     const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState({})
@@ -12,6 +12,12 @@ export default function Login({ setAppState }) {
     email: "",
     password: "",
   })
+
+    useEffect(() => {
+        if(isLoggedIn == false && redirect == true){
+        setErrors((e) => ({ ...e, form: "Please log into or create an account" }))
+    }
+    },[])
 
   const handleOnInputChange = (event) => {
     if (event.target.name === "email") {
@@ -33,9 +39,13 @@ export default function Login({ setAppState }) {
     try {
       const res = await axios.post(`http://localhost:3001/auth/login`, form)
       if (res?.data) {
+        console.log(res.data)
         setAppState(res.data)
         setIsLoading(false)
-        navigate("/")
+        setIsLoggedIn(true)
+        setRedirect(false)
+        localStorage.setItem('user', res.data)
+        navigate("/activity")
       } else {
         setErrors((e) => ({ ...e, form: "Invalid username/password combination" }))
         setIsLoading(false)
@@ -49,9 +59,10 @@ export default function Login({ setAppState }) {
   }
 
   return (
+
     <div className="Login">
       <div className="card">
-        <h2>Login to the user</h2>
+        <h2>Login</h2>
 
         {Boolean(errors.form) && <span className="error">{errors.form}</span>}
         <br />
@@ -88,7 +99,7 @@ export default function Login({ setAppState }) {
 
         <div className="footer">
           <p>
-            Don't have an account? Sign up <Link to="/register">here</Link>
+            Don't have an account? Sign up <Link className = "hereLink" to="/register">here</Link>
           </p>
         </div>
       </div>

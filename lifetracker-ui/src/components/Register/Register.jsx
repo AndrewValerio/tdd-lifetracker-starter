@@ -67,7 +67,7 @@ export default function Signup({ setAppState }) {
       if (res?.data?.user) {
         setAppState(res.data)
         setIsLoading(false)
-        navigate("/")
+        navigate("/activity")
       } else {
         setErrors((e) => ({ ...e, form: "Something went wrong with registration" }))
         setIsLoading(false)
