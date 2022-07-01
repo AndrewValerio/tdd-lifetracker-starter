@@ -14,5 +14,6 @@ export default function Nutrition({ setAppState, isLoggedIn, setRedirect}){
     },[])
     return (
         <p>Nutrition page reached</p>
+        
     )
 }

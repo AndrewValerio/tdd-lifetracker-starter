@@ -2,25 +2,37 @@ const {UnauthorizedError, BadRequestError, NotFoundError} = require("../utils/er
 const db = require("../db")
 
 class Nutrition{
-    static async createNutrition(nutrition, user){
-        const requiredFields = ["name", "category", "calories", "image_url"]
+    static async makeNutritionUser(nutrition){
+        return {
+            user_id: nutrition.user_id,
+            name: nutrition.email,
+            category: nutrition.username,
+            calories: nutrition.first_name,
+            image_url: nutrition.last_name
+        }
+    }
+    static async createNutrition(nutrition){
+        const requiredFields = ["category", "calories", "image_url", "name"]
         requiredFields.forEach(field => {
-            if(!credentials.hasOwnProperty(field)){
+            if(!nutrition.hasOwnProperty(field)){
                 throw new BadRequestError(`missing ${field} in request body.`)
             }
         })
         const result = await db.query(`
             INSERT INTO nutrition (
+                user_id,
                 name,
                 category,
                 calories,
                 image_url
             )
-            VALUES ($1, $2, $3, $4)
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING user_id, name, category, calories, image_url;
-       `, [ nutrition.name, nutrition.category, nutrition.calories, nutrition.image_url])
+       `, [ nutrition.user_id, nutrition.name, nutrition.category, nutrition.calories, nutrition.image_url])
+
+       const nutritionUser = result.rows
         
-       return result
+       return Nutrition.makeNutritionUser(nutritionUser)
 
     }
     static async fetchNutritionById(nutritionId){
@@ -28,24 +40,24 @@ class Nutrition{
             throw new NotFoundError()
         }
 
-        const query = `SELECT nutrition.category, nutrition.calories, nutrition.image_url
-        FROM users AS u
-        INNER JOIN nutrition ON u.id = nutrition.user_id`
+        const query = `SELECT nutrition.name, nutrition.category, nutrition.calories, nutrition.image_url
+        FROM nutrition WHERE nutrition.id = $1`
 
-        const result = await db.query(query)
+        const result = await db.query(query, [nutritionId])
 
-        return result
+        return result.rows
     }
-    static async fetchNutritionForUser(user){
+    static async listNutritionForUser(user){
         console.log(user)
-        const result = await db.query( `SELECT nutrition.category, nutrition.calories, nutrition.image_url, user_id 
+        const result = await db.query( `SELECT * 
         FROM nutrition 
-        WHERE user_id  = (SELECT id FROM users WHERE username = $1);
+        WHERE user_id = $1;
         `,
-        [user.username]
+        [user]
         )
 
-        return result
+
+        return result.rows
     }
 
 }

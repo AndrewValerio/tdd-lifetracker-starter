@@ -44,8 +44,7 @@ export default function Login({ setAppState, isLoggedIn, setIsLoggedIn,redirect,
         setIsLoading(false)
         setIsLoggedIn(true)
         setRedirect(false)
-        localStorage.setItem('user', res.data)
-        navigate("/activity")
+        navigate("/nutrition")
       } else {
         setErrors((e) => ({ ...e, form: "Invalid username/password combination" }))
         setIsLoading(false)

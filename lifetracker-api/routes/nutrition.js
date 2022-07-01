@@ -6,31 +6,31 @@ const router = express.Router()
 
 router.get("/", async(req, res, next) => {
     try{
-        console.log(res.locals.user)
-        const user = res.locals.user
-        console.log(user)
-        const nutrition = await Nutrition.fetchNutritionForUser(user)
-        return res.status(200).json({"nutritions": nutrition })
+        //console.log(res.locals)
+        //const {user} = res.locals
+        //console.log(user)
+        const nutrition = await Nutrition.listNutritionForUser(1)
+        return res.status(201).json({ nutrition })
     } catch(err){
         next(err)
     }
 })
 
-router.post("/", async(req, res, next) => {
+router.post("/create", async(req, res, next) => {
     try{
-        const user = res.locals.user
-        const newNutrition = await Nutrition.createNutrition({ nutrition: req.body.nutrition, user })
-        return res.status(200).json({"nutritions": newNutrition })
+        //const user = res.locals.user
+        const newNutrition = await Nutrition.createNutrition(req.body)
+        return res.status(201).json({ newNutrition })
     } catch(err){
         next(err)
     }
 })
 
-router.get("/:nutritionId", async(req, res, next) => {
+router.get("/id/:nutritionId", async(req, res, next) => {
     try{
-        const nutritionId = req.params.nutritionId
+        const nutritionId = Number(req.params.nutritionId);
         const nutrition = await Nutrition.fetchNutritionById(nutritionId)
-        return res.status(200).json({"nutritions": nutrition })
+        return res.status(201).json({ nutrition })
     } catch(err){
         next(err)
     }
