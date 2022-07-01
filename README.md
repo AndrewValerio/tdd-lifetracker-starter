@@ -12,14 +12,14 @@ This application will be built using the battle-tested PERN stack - PostgreSQL, 
 
 Building this application you will accomplish the following:
 
-- [ ] Develop a full-fledged authentication system using PostgreSQL and Bcrypt
-- [ ] Provide users with an Express API they can interact with to store user-related activity
-- [ ] Construct multiple Models that implement the core business logic associated with tracking users' lives
-- [ ] Write SQL queries that aggregate user statistics and provide summary overviews about their activity
-- [ ] Design a React frontend that interacts with the API using an API service class
-- [ ] Build multiple pages and forms that communicate with the server using HTTP requests
+- [X] Develop a full-fledged authentication system using PostgreSQL and Bcrypt
+- [X] Provide users with an Express API they can interact with to store user-related activity
+- [X] Construct multiple Models that implement the core business logic associated with tracking users' lives
+- [X] Write SQL queries that aggregate user statistics and provide summary overviews about their activity
+- [X] Design a React frontend that interacts with the API using an API service class
+- [X] Build multiple pages and forms that communicate with the server using HTTP requests
 - [ ] Store user-authenticated JWT tokens in the browser's local storage for persisted authentication
-- [ ] Employ useEffect and useState hooks to manage application state on the frontend
+- [X] Employ useEffect and useState hooks to manage application state on the frontend
 
 ## Application Features
 
