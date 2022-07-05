@@ -1,0 +1,10 @@
+.feed {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    grid-gap: 10px;
+    gap: 10px;
+    margin-top: 50px;
+    margin-left: 50px;
+    padding-bottom: 50px;
+}

@@ -11,6 +11,7 @@ import Activity from "../Activity/Activity"
 import Nutrition from "../Nutrition/Nutrition";
 import Sleep from "../Sleep/Sleep";
 import Exercise from "../Exercise/Exercise";
+import NutritionNew from "../NutritionNew/NutritionNew";
 
 export default function App() {
   const [appState, setAppState] = useState({})
@@ -19,31 +20,42 @@ export default function App() {
   return (
     <div className="App">
       <React.Fragment>{ <BrowserRouter>
-            <Navbar user={appState.user} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Navbar user={appState.user} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} appState={appState} />
             <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/register" element={<Register setAppState={setAppState} 
-            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} 
+            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
+            appState={appState}
+            />} 
             />
             <Route path="/login" element={<Login setAppState={setAppState} 
               isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
               setRedirect={setRedirect} redirect={redirect}
+              appState={appState}
             />} 
             />
             <Route path="/activity" element={<Activity setAppState={setAppState} 
               isLoggedIn={isLoggedIn} setRedirect={setRedirect}
+              appState={appState}
             />} 
             />
             <Route path="/nutrition" element={<Nutrition setAppState={setAppState} 
               isLoggedIn={isLoggedIn} setRedirect={setRedirect}
+              appState={appState}
             />} 
             />
             <Route path="/exercise" element={<Exercise setAppState={setAppState} 
               isLoggedIn={isLoggedIn} setRedirect={setRedirect}
+              appState={appState}
             />} />
             <Route path="/sleep" element={<Sleep setAppState={setAppState} 
               isLoggedIn={isLoggedIn} setRedirect={setRedirect}
+              appState={appState}
             />} />
+            <Route path ="/nutrition/create" element = {<NutritionNew isLoggedIn={isLoggedIn}
+             setRedirect={setRedirect} appState={appState}
+             />}/>
+
             <Route path="*" element={<NotFound/>}
             />
         </Routes>
