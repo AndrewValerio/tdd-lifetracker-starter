@@ -48,16 +48,26 @@ class Nutrition{
         return result.rows
     }
     static async listNutritionForUser(user){
-        console.log(user)
-        const result = await db.query( `SELECT * 
-        FROM nutrition 
-        WHERE user_id = $1;
+        if(!user){
+            throw new BadRequestError("No email provided")
+        }
+
+        const userId = await db.query( `SELECT id 
+        FROM users
+        WHERE email = $1;
         `,
-        [user]
+        [user.email]
         )
 
+        const id = userId.rows[0].id
 
-        return result.rows
+        const query = `SELECT * FROM nutrition WHERE user_id = $1`
+
+        const result = await db.query(query, [id])
+
+        const nutrition = result.rows
+
+        return nutrition
     }
 
 }

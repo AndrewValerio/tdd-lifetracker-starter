@@ -58,6 +58,10 @@ class User{
        if(existingUser){
         throw new BadRequestError(`Duplicate email: ${credentials.email}`)
        }
+       const existingUserWithUsername = await User.fetchUserByUsername(credentials.username)
+        if (existingUserWithUsername) {
+      throw new BadRequestError(`A user already exists with username: ${credentials.username}`)
+        }
        //take the users password, and hash it
        const hashedPassword = await bcrypt.hash(credentials.password, parseInt(workFactor))
        //take the users email, and lowercase it
@@ -96,15 +100,20 @@ class User{
         return user
     }
 
-    static async fetchActivity(){
-        const query = `SELECT nutrition.category, nutrition.calories, nutrition.image_url
-        FROM users AS u
-        INNER JOIN nutrition ON u.id = nutrition.user_id`
-        const result = await db.query(query)
-        return result
-        //fetch user's activities tables
-        // use join after db.query to get 
-        //SELECT * FROM users WHERE user left join
-    }
+    static async fetchUserByUsername(username) {
+        if (!username) {
+          throw new BadRequestError("No username provided")
+        }
+    
+        const query = `SELECT * FROM users WHERE username = $1`
+    
+        const result = await db.query(query, [username])
+    
+        const user = result.rows[0]
+    
+        return user
+      }
+    
+
 }
 module.exports = User
