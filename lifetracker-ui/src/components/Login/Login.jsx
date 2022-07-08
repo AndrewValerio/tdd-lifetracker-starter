@@ -3,8 +3,11 @@ import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 // import undraw_medical_research from "../../assets/undraw_medical_research_deep_blue.svg"
 import "./Login.css"
+import apiClient from "../services/apiClient"
+import { useAuthContext } from "components/Contexts/auth"
 
-export default function Login({ setAppState, isLoggedIn, setIsLoggedIn,redirect, setRedirect }) {
+export default function Login({redirect, setIsLoggedIn, isLoggedIn}) {
+  const {setAppState, appState} = useAuthContext();
     const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState({})
@@ -13,11 +16,7 @@ export default function Login({ setAppState, isLoggedIn, setIsLoggedIn,redirect,
     password: "",
   })
 
-    useEffect(() => {
-        if(isLoggedIn == false && redirect == true){
-        setErrors((e) => ({ ...e, form: "Please log into or create an account" }))
-    }
-    },[])
+
 
   const handleOnInputChange = (event) => {
     if (event.target.name === "email") {
@@ -36,25 +35,19 @@ export default function Login({ setAppState, isLoggedIn, setIsLoggedIn,redirect,
     setIsLoading(true)
     setErrors((e) => ({ ...e, form: null }))
 
-    try {
-      const res = await axios.post(`http://localhost:3001/auth/login`, form)
-      if (res?.data) {
-        console.log(res.data)
-        setAppState(res.data)
-        setIsLoading(false)
-        setIsLoggedIn(true)
-        setRedirect(false)
-        navigate("/nutrition")
-      } else {
-        setErrors((e) => ({ ...e, form: "Invalid username/password combination" }))
-        setIsLoading(false)
-      }
-    } catch (err) {
-      console.log(err)
-      const message = err?.response?.data?.error?.message
-      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }))
-      setIsLoading(false)
+    const { data, error } = await apiClient.loginUser({ email: form.email, password: form.password })
+    if (error)
+    {
+      setErrors((e) => ({ ...e, form: "Invalid username/password combination" }))
     }
+    if (data?.user)
+    {
+      setAppState(data.user)
+      apiClient.setToken(data.token)
+      setIsLoggedIn(true)
+      navigate("/nutrition");
+    }
+    setIsLoading(false);
   }
 
   return (

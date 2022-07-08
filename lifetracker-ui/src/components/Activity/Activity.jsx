@@ -1,21 +1,22 @@
-import { useState, useEffect } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import axios from "axios"
-import "./Activity.css"
+import ActivityFeed from "components/ActivityFeed/ActivityFeed";
+import { useState } from "react";
+import "./Activity.css";
+import { NutritionContextProvider } from "components/contexts/nutrition";
 
-
-export default function Activity({ setAppState, isLoggedIn, setRedirect }){
-    const navigate = useNavigate()
-    useEffect(() => {
-        if(isLoggedIn == false){
-        navigate("/login")
-        setRedirect(true)
-    }
-    },[])
-    console.log("activity component", isLoggedIn)
-    
-    
-    return (      
-        <p>Activity page reached</p>
+export default function activityContainer(){
+    return(
+    <NutritionContextProvider>
+        <Activity />
+    </NutritionContextProvider>
     )
 }
+function Activity() {
+    return (
+        <div className="activity-page">
+            <div className="content">
+                <ActivityFeed />
+            </div>
+        </div>
+    )
+}
+

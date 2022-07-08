@@ -2,8 +2,9 @@ import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 import "./Register.css"
+import apiClient from "../services/apiClient"
 
-export default function Signup({ setAppState }) {
+export default function Signup({ setAppState, setIsLoggedIn }) {
     const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState({})
@@ -55,29 +56,30 @@ export default function Signup({ setAppState }) {
       setErrors((e) => ({ ...e, passwordConfirm: null }))
     }
 
-    try {
-      const res = await axios.post("http://localhost:3001/auth/register", {
-        username: form.username,
-        first_name: form.first_name,
-        last_name: form.last_name,
-        email: form.email,
-        password: form.password,
-      })
-
-      if (res?.data?.user) {
-        setAppState(res.data)
-        setIsLoading(false)
-        navigate("/activity")
-      } else {
+    const { data, error } = await apiClient.signupUser({
+      first_name: form.first_name,
+       last_name: form.last_name,
+       email: form.email,
+       password: form.password,
+      username: form.username
+    })
+    if (error)
+    {
+      setErrors((e) => ({ ...e, form: error }))
+      setIsLoading(false);
+    }
+    if (data?.user)
+    {
+      setAppState(data.user);
+      apiClient.setToken(data.token)
+      setIsLoading(false);
+      setIsLoggedIn(true)
+      navigate("/activity");
+    }
+      else {
         setErrors((e) => ({ ...e, form: "Something went wrong with registration" }))
         setIsLoading(false)
       }
-    } catch (err) {
-      console.log(err)
-      const message = err?.response?.data?.error?.message
-      setErrors((e) => ({ ...e, form: message ? String(message) : String(err) }))
-      setIsLoading(false)
-    }
   }
 
   return (

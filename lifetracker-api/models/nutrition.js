@@ -6,7 +6,7 @@ class Nutrition{
         return {
             user_id: nutrition.user_id,
             name: nutrition.email,
-            category: nutrition.username,
+            category: nutrition.category,
             calories: nutrition.first_name,
             image_url: nutrition.last_name
         }

@@ -2,27 +2,30 @@ import axios from "axios"
 import "./NutritionCard.css"
 
 
-export default function NutritionCard({appState}){
+export default function NutritionCard({appState, nutrition = {}}){
  
         return (
-            <div class="NutritionCard">
-            <div class="card-header">
-            <img src="ywywywy" alt="nutrition"/>
-            <h2 class="title">Apple</h2>
+            <div className="NutritionCard">
+            <div className="card-header">
+            <div>
+                <img className="image" src={nutrition?.imageUrl} alt="" />
             </div>
-            <div class="card-stats">
-            <div class="CardStat">
+            <img src="ywywywy" alt=""/>
+            <h2 className="title">{nutrition?.name}</h2>
+            </div>
+            <div className="card-stats">
+            <div className="CardStat">
             <p>Calories</p>
-            <span>174</span>
+            <span>{nutrition?.calories}</span>
             </div>
-            <div class="CardStat">
+            <div className="CardStat">
             <p>Quantity</p>
             <span>1</span>
             </div>
             </div>
-            <div class="card-meta">
-            <small>Today at 10:47 AM</small>
-            <small class="category">Fruit</small>
+            <div className="card-meta">
+            <small>Created at {nutrition.createdAt}</small>
+            <small className="category">{nutrition.category}</small>
             </div>
             </div>
                 

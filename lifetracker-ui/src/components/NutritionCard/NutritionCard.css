@@ -8,6 +8,7 @@
     position: relative;
     padding: 16px 32px;
     background: #03c5d1;
+    margin: 15px;
 }
  .card-header {
     justify-content: flex-start;
@@ -56,4 +57,10 @@ p {
 }
 small{
     color: white;
+}
+img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
 }

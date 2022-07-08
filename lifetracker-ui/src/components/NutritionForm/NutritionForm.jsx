@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 import "./NutritionForm.css"
+import apiClient from "../services/apiClient"
 
 export default function NutritionForm({ appState }) {
     const navigate = useNavigate()
@@ -10,7 +11,7 @@ export default function NutritionForm({ appState }) {
     const [form, setForm] = useState({
     name: "",
     category: "",
-    quantity: "",
+    quantity: 1,
     calories: "",
     imageUrl: "",
   })
@@ -23,23 +24,23 @@ export default function NutritionForm({ appState }) {
     setIsLoading(true)
     setErrors((e) => ({ ...e, form: null }))
 
-    try {
-      const res = await axios.post("http://localhost:3001/nutrition/create", {
-        user_id: appState.user.id,
-        name: form.name,
-        category: form.category,
-        calories: form.calories,
-        image_url: form.imageUrl,
-      })
-
-      navigate("/nutrition")
-
-    } catch (err) {
-      console.log(err)
-      const message = errors
-      setErrors((e) => ({ ...e, form: message}))
-      setIsLoading(false)
-    }
+    const { data, error } = await apiClient.createNutrition({
+      name: form.name,
+      category: form.category,
+       calories: form.calories,
+       image_url: form.imageUrl,
+       user_id: appState.id,
+  })
+  if (error)
+  {
+      setErrors(error)
+  }
+  if (data)
+  {
+    navigate("/nutrition");
+    setForm("")
+  }
+  setIsLoading(false);
   }
 
   return (
