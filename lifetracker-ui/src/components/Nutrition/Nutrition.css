@@ -3,6 +3,7 @@
     min-height: calc(100vh);
     overflow-x: hidden;
     background-color: #2c4147;
+    display: flex;
   }
   
   .nutrition-page .content {

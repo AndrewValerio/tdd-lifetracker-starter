@@ -3,8 +3,10 @@ import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 import "./NutritionForm.css"
 import apiClient from "../services/apiClient"
+import { useAuthContext } from "components/Contexts/auth"
 
-export default function NutritionForm({ appState }) {
+export default function NutritionForm({}) {
+    const {appState} = useAuthContext()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState({})
