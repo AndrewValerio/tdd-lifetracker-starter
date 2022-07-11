@@ -1,0 +1,66 @@
+.NutritionCard {
+    width: 360px;
+    height: 255px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    padding: 16px 32px;
+    background: #03c5d1;
+    margin: 15px;
+}
+ .card-header {
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+}
+ img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+ .title {
+    color: white;
+}
+ .card-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.card-meta{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+small.category {
+    color: white;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+ span {
+    font-size: 40px;
+    color: white;
+}
+p {
+    font-size: 22px;
+    color: white;
+    font-weight: 400;
+}
+.CardStat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+small{
+    color: white;
+}
+img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}

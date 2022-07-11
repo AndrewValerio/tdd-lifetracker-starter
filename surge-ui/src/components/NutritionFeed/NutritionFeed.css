@@ -1,0 +1,10 @@
+.feed {
+    display: flex;
+    margin-top: 50px;
+    margin-left: 50px;
+    padding-bottom: 50px;
+}
+.grid{
+    display: flex;
+    width: 75%;
+}
